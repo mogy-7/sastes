@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include <unistd.h>
+#include <unistd.h>
 #include <time.h>
 #include <ctype.h>
 
@@ -45,8 +45,7 @@ Tache tache[MAX_TACHES];
 int nbrTaches = 0;
 
    void affichage(Tache T[], int a){
-    int b = a;
-    for (int i = 0; i < b; i++) {
+    for (int i = 0; i < a; i++) {
         printf("ID : %d\n", T[i].id);
         printf("Titre : %s\n", T[i].titre);
         printf("descr : %s\n", T[i].descr);
@@ -83,8 +82,6 @@ int timecalc(int a, int b, int c ){
     
 }
 
-
-
 void ajtTache(int a){
        time_t tt = time(NULL);
     struct tm* dt = localtime(&tt);
@@ -93,7 +90,7 @@ void ajtTache(int a){
     int  anne = dt->tm_year+1900;
     int N = 0;
     int d;
-    
+
     if (nbrTaches >= MAX_TACHES) {
         printf("La liste de taches est pleine. Impossible d'ajouter plus de taches.\n");
         return;
@@ -105,14 +102,14 @@ void ajtTache(int a){
     printf("Titre de la %d tache : ",N+1);
     scanf(" %[^\n]", buffer.titre);
 
-    printf("Description de la %d tache : ",N+1);
+    printf("Description de la tache nemero %d : ",N+1);
     scanf(" %[^\n]", buffer.descr);
     printf(" on 'est on %d/%d/%d\n",jour,mois,anne);
-    printf("Date limite  : \n");
+    printf("entre le deadline  : \n");
     anne:
     printf("\tentrer l'annee :  ");
     scanf(" %d", &d);
-    if (d < 2023)
+    if (d < 2023 || d > 2100)
     {
         printf("\t\tinvalid anne!\n");
         goto anne;
@@ -139,10 +136,10 @@ void ajtTache(int a){
     }
     buffer.deadline.jour = d;
     buffer.joures = timecalc(buffer.deadline.anne,buffer.deadline.mois,buffer.deadline.jour );
-
+    // statu(buffer,N);
     status:
     int s;
-    printf("Statut de la %d tache\n  pour a realiser entrer (1) :\n  pour en cours (2) :\n  pour finalisee (3) : ",N+1);
+    printf("Statut de de la tache nemero %d\n  pour a realiser entrer (1) :\n  pour en cours (2) :\n  pour finalisee (3) : ",N+1);
     scanf(" %d",&s);
     if(s == 1){
         strcpy(buffer.statuses.statusname,"a realiser");
@@ -192,10 +189,9 @@ void troifun(){
  
 
 void triParTitre(Tache tab[],int nbr){
-         int nbrr = nbr;
-         // Trie les tâches par titre
-    for (int i = 0; i < nbrr - 1; i++) {
-        for (int j = 0; j < nbrr - i - 1; j++){
+         
+    for (int i = 0; i < nbr - 1; i++) {
+        for (int j = 0; j < nbr - i - 1; j++){
             if (strcmp(tab[j].titre, tab[j + 1].titre) > 0){
                 Tache tmp = tab[j];
                 tab[j] = tab[j + 1];
@@ -203,7 +199,7 @@ void triParTitre(Tache tab[],int nbr){
             }
             }
         }
-    affichage(tab,nbrr);
+    affichage(tab,nbr);
 }
 void triPard(){
     
@@ -234,7 +230,7 @@ int AfficherTaches(){
     }
     int a;
      tri:  
-      printf("pour trier les taches\n par ordre alphabetique entrer (1)\n, par deadline (2)\n,  deadline est dans (3) jours ou moins : \n");
+      printf("\tpour trier les taches\n par ordre alphabetique entrer (1)\n\tpar deadline (2)\n,\t deadline est dans (3) jours ou moins : \n");
       scanf("%d",&a);
     if(a == 1){
         triParTitre(tache,nbrTaches);
@@ -274,31 +270,48 @@ int triParid(int a){
 
 int  midifyer(int d,int i){
     char buffer[100];
-    int n;
+    int n,s;
     if (d == 1)
     {
         printf("entre la modification de la description ici :  ");
-            scanf("%s",buffer);
+            scanf(" %[^\n]",buffer);
             strcpy(tache[i].descr,buffer);
     }
     else if (d == 2)
     {
-       printf("entre la modification de le statut ici :  ");
-            scanf("%s",buffer);
-            strcpy(tache[i].statuses.statusname,buffer);
+       printf("entre la modification de le statut ici :  \n");
+    status:
+    printf("Statut de la tache :\n  pour a realiser entrer (1) :\n  pour en cours (2) :\n  pour finalisee (3) : ");
+    scanf(" %d",&s);
+    if(s == 1){
+        strcpy(tache[i].statuses.statusname,"a realiser");
+            tache[i].statuses.tag = 1;
+    }
+    else if(s == 2){
+        strcpy(tache[i].statuses.statusname,"en cours");
+        tache[i].statuses.tag = 2;
+    }
+    else if(s == 3){
+       strcpy(tache[i].statuses.statusname,"finalisee");
+       tache[i].statuses.tag = 3;
+    }
+    else{
+        puts("\tinvalide input \n");
+         goto status;
+    }
     }
     else if (d == 3)
     {
         printf("entre la modification de le deadline ici :  ");
             printf("\n\tentre l'anne : ");
-            scanf("%d",n);
-            tache[i].deadline.anne;
+            scanf("%d",&n);
+            tache[i].deadline.anne = n;
             printf("\n\tentre le moi : ");
-            scanf("%d",n);
+            scanf("%d",&n);
             tache[i].deadline.mois = n;
             printf("\n\tentre le jour : ");
-            scanf("%d",n);
-            tache[i].deadline.jour;
+            scanf("%d",&n);
+            tache[i].deadline.jour = n;
 
     }
     else
@@ -323,23 +336,38 @@ void modify(){
     {
         start:
        printf("entre le id de la tache : ");
-       scanf("%d",n);
-      if (triParid() == -1)
+       scanf("%d",&n);
+       i = triParid(n);
+      if ( i == -1)
       {
-        printf("\tid invalid ");
+        printf("\tid invalid \n");
         goto start;
       }
       modi:
       printf("pour  Modifier la description entrer (1) .\n ");
       printf("pour Modifier le statut d'une tache (2) .\n");
       printf("Modifier le deadline d'une tache entrer (3) .\n");
-      scanf("%d",d);
+      scanf("%d",&d);
      if (midifyer(d,i) == -1)
      {
-        printf("invalid choix ! ");
+        printf("\tinvalid choix ! \n");
         goto modi;
      }
-     
+     sleep(1);
+     ask:
+     char c;
+    printf("voulez-vous le modifier des autres tache ? [Y/N] : ");
+    scanf("%c",&c);
+    if (c == 'Y' || c == 'y')
+    {
+        continue;
+    }
+    else if (c == 'N' || c == 'n'){
+        break;
+    }else{
+        goto ask;
+    }
+    
 
     
     }
@@ -354,7 +382,7 @@ void modify(){
 // void ajtTache(int a);
 // int timecalc(int a, int b, int c );
 // int troifun();
-// void affichage(Tache T[], int a);
+// void affichage(Tache Ti, int a);
 // void trieParDl(Tache B[],int N);
 // void triParTitre(Tache tab[],int nbr);
 
@@ -366,14 +394,22 @@ int main() {
     while (1) {
         printf("\nMenu principal:\n");
         printf("1. Ajouter nouvelles taches\n");
-        printf("2. Afficher la liste de toutes les taches (triees)\n");
-        printf("3. Quitter\n");
+        printf("2. Afficher la liste des toutes les taches (triees)\n");
+        printf("3. Modifier un tache \n");
+        printf("4. Quitter\n");
         printf("Entrez votre choix : ");
         scanf("%d", &choix);
         switch (choix){
             case 1:
+            nmbr:
             printf("entre le nombre de taches : ");
             scanf("%d",&n);
+            if (n <= 0)
+            {
+               printf("nombre de tache invalid !\n");
+               goto nmbr;
+            }
+            
             ajtTache(n);
                 break;
             case 2:
@@ -381,6 +417,7 @@ int main() {
                 break;
             case 3:
                 modify();
+                break;
             case 4:
                 printf("Au revoir!\n");
                 exit(0);
