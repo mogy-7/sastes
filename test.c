@@ -256,6 +256,98 @@ int AfficherTaches(){
     return 0;
     
 }
+int triParid(int a){
+    int B = 0;
+    int F = nbrTaches;
+    while(B <= F ){
+        int M = (B + F)/2;
+        if (tache[M].id == a)
+            return M;
+        else if (tache[M].id < a)
+            B = M + 1;
+        else
+            F = M - 1;
+    }
+    return -1;
+}
+
+
+int  midifyer(int d,int i){
+    char buffer[100];
+    int n;
+    if (d == 1)
+    {
+        printf("entre la modification de la description ici :  ");
+            scanf("%s",buffer);
+            strcpy(tache[i].descr,buffer);
+    }
+    else if (d == 2)
+    {
+       printf("entre la modification de le statut ici :  ");
+            scanf("%s",buffer);
+            strcpy(tache[i].statuses.statusname,buffer);
+    }
+    else if (d == 3)
+    {
+        printf("entre la modification de le deadline ici :  ");
+            printf("\n\tentre l'anne : ");
+            scanf("%d",n);
+            tache[i].deadline.anne;
+            printf("\n\tentre le moi : ");
+            scanf("%d",n);
+            tache[i].deadline.mois = n;
+            printf("\n\tentre le jour : ");
+            scanf("%d",n);
+            tache[i].deadline.jour;
+
+    }
+    else
+    {
+        return -1;
+    }
+    
+    
+}
+
+
+void modify(){
+      if (nbrTaches <= 0)
+    {
+        printf("n'est pas de tache pour modifier \n");
+        return;
+    }
+    int n;
+    int i,d;
+
+    while (1)
+    {
+        start:
+       printf("entre le id de la tache : ");
+       scanf("%d",n);
+      if (triParid() == -1)
+      {
+        printf("\tid invalid ");
+        goto start;
+      }
+      modi:
+      printf("pour  Modifier la description entrer (1) .\n ");
+      printf("pour Modifier le statut d'une tache (2) .\n");
+      printf("Modifier le deadline d'une tache entrer (3) .\n");
+      scanf("%d",d);
+     if (midifyer(d,i) == -1)
+     {
+        printf("invalid choix ! ");
+        goto modi;
+     }
+     
+
+    
+    }
+    
+  
+    
+    
+}
 
 // int main();
 // int AfficherTaches(int a);
@@ -285,17 +377,11 @@ int main() {
             ajtTache(n);
                 break;
             case 2:
-            // affichage(tache,nbrTaches);
-            AfficherTaches();
-                // tri:
-                // printf("pour trier les taches par ordre alphabetique entrer (1)\n, par deadline (2)\n,  deadline est dans (3) jours ou moins : ");
-                // scanf("%d",&f);
-                // if (AfficherTaches(f) == -1)
-                // {
-                //  goto tri;
-                // }              
+                AfficherTaches();
                 break;
             case 3:
+                modify();
+            case 4:
                 printf("Au revoir!\n");
                 exit(0);
             default:
