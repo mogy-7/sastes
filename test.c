@@ -36,6 +36,7 @@ typedef struct s_tache{
     date deadline; 
     status statuses;   
     int joures;
+    date criation;
 }Tache;
 
 Tache troi[MAX_TACHES];
@@ -53,6 +54,9 @@ int nbrTaches = 0;
         printf("/%d",T[i].deadline.mois);
         printf("/%d\n", T[i].deadline.jour);
         printf("Statut : %s\n", T[i].statuses.statusname);
+        printf("Date de creation : %d", T[i].criation.jour);
+        printf("/%d",T[i].deadline.mois);
+        printf("/%d\n", T[i].deadline.anne);
         printf("\n");
     }
  }
@@ -98,6 +102,9 @@ void ajtTache(int a){
     
     Tache buffer;
     while(N < a){
+    buffer.criation.anne = anne;
+    buffer.criation.mois = mois;
+    buffer.criation.jour = jour;
     buffer.id = nbrTaches + 1;
     printf("Titre de la %d tache : ",N+1);
     scanf(" %[^\n]", buffer.titre);
