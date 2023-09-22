@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+// #include <unistd.h>
 #include <time.h>
 #include <ctype.h>
 
@@ -353,11 +353,12 @@ void modify(){
         printf("\tinvalid choix ! \n");
         goto modi;
      }
-     sleep(1);
-     ask:
+     
+     
      char c;
     printf("voulez-vous le modifier des autres tache ? [Y/N] : ");
-    scanf("%c",&c);
+    ask:
+    c = getchar();
     if (c == 'Y' || c == 'y')
     {
         continue;
@@ -365,6 +366,7 @@ void modify(){
     else if (c == 'N' || c == 'n'){
         break;
     }else{
+        printf("\tinvalid choix\n");
         goto ask;
     }
     
