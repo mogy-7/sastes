@@ -622,14 +622,21 @@ int main() {
         switch (choix){
             case 1:
             nmbr:
-            printf("entre le nombre de taches : ");
+            printf("\nentre le nombre de taches : ");
             scanf("%d",&n);
             if (n <= 0)
             {
                printf("nombre de tache invalid !\n");
                goto nmbr;
+            }else if (n > 100 )
+            {     printf("\n\t~tu passes les limit des taches~\n");
+                  goto nmbr;
+                
+            }else if (n > 10)
+            {
+                 printf("\n\t~c'est traux mai pas problem~\n");
             }
-            
+
             ajtTache(n);
                 break;
             case 2:
