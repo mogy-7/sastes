@@ -574,13 +574,19 @@ while (1)
        for (size_t i = 0; i < nbrTaches; i++){
          printf("ID : %d\n", tache[i].id);
         printf("Titre : %s\n", tache[i].titre);
-        printf("Ile nombre de jours restantsD : %d\n", tache[i].joures);
+        printf("le nombre de jours restants : %d\n", tache[i].joures);
        }
     }else{
         printf("\tchoix invalid !!");
         goto f;
     }
-
+    printf("voulez-vous  des autres static  ? [Y/N]");
+    char v = getchar();
+    if(v == 'Y'|| v == 'y')
+            continue;
+    else if(v == 'N'|| v == 'n')
+            break;
+    
 }
 
 }
