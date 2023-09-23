@@ -9,11 +9,11 @@
 #include <time.h>
 #include <ctype.h>
 
-     time_t tt ;
-    struct tm* dt;
-    int jour ;
-    int mois ;
-    int  anne ;
+    //  time_t tt ;
+    // struct tm* dt;
+    // int jour ;
+    // int mois ;
+    // int  anne ;
     
 
 #define MAX_TACHES 100
@@ -62,11 +62,16 @@ int nbrTaches = 0;
  }
 
 int timecalc(int a, int b, int c ){
-    tt = time(NULL);
-     dt = localtime(&tt);
-    jour  = dt->tm_mday;
-    mois = dt->tm_mon+1;
-    anne = dt->tm_year+1900;
+    time_t tt = time(NULL);
+     struct tm* dt = localtime(&tt);
+    int jour  = dt->tm_mday;
+   int  mois = dt->tm_mon+1;
+   int  anne = dt->tm_year+1900;
+      ;
+    ;
+    // int jour ;
+    // int mois ;
+    // int  anne ;
 
     int y = anne - a;
     int m;
@@ -89,9 +94,9 @@ int timecalc(int a, int b, int c ){
 void ajtTache(int a){
        time_t tt = time(NULL);
     struct tm* dt = localtime(&tt);
-    int jour  = dt->tm_mday;
-    int mois = dt->tm_mon+1;
-    int  anne = dt->tm_year+1900;
+    int D  = dt->tm_mday;
+    int M = dt->tm_mon+1;
+    int  Y = dt->tm_year+1900;
     int N = 0;
     int d;
 
@@ -102,16 +107,19 @@ void ajtTache(int a){
     
     Tache buffer;
     while(N < a){
-    buffer.criation.anne = anne;
-    buffer.criation.mois = mois;
-    buffer.criation.jour = jour;
+        time_t H = Y;
+    buffer.criation.anne = H;
+    H = M;
+    buffer.criation.mois = H;
+    H = M;
+    buffer.criation.jour = H;
     buffer.id = nbrTaches + 1;
     printf("Titre de la %d tache : ",N+1);
     scanf(" %[^\n]", buffer.titre);
 
     printf("Description de la %d tache   : ",N+1);
     scanf(" %[^\n]", buffer.descr);
-    printf("==================== on 'est on %d/%d/%d =====================\n",jour,mois,anne);
+    printf("==================== on 'est on %d/%d/%d =====================\n",D,M,Y);
     printf("entre le deadline  : \n");
     anne:
     printf("\n\tentrer l'annee :  ");
@@ -126,7 +134,7 @@ void ajtTache(int a){
     moi:
     printf("\n\t entrer le moi  :  ");
    scanf(" %d", &d);
-    if ((d < 1 || d > 12 ) || (d < mois && y - anne < 1 ))
+    if ((d < 1 || d > 12 ) || (d < M && y - Y < 1 ))
     {
         printf("\n\t\tinvalid moi !!!\n");
         goto moi;
@@ -136,7 +144,7 @@ void ajtTache(int a){
     jour:
     printf("\n\t entrer le jour  :  ");
     scanf(" %d", &d);
-     if ((d < 1 || d > 30) || (d < jour && m - mois < 1 && y - anne < 1 ))
+     if ((d < 1 || d > 30) || (d < D && m - M < 1 && y - M < 1 ))
     {
         printf("\n\t\tinvalid jour !!!\n");
         goto jour;
@@ -303,9 +311,10 @@ int chrPart(char tab[]){
     int M = -1;
     for (int i = 0; i < nbrTaches; i++) {
          if (strcmp(tache[i].titre,tab) == 0){
-            return M;
-         }
-}
+            return i;
+         }      
+} 
+return M;
 }
 
 int  midifyer(int d,int i){
@@ -500,7 +509,7 @@ void modify(){
         return;
          }
     int n;
-    int i,d,r;
+    int i ,d,r;
     
     printf("pour recherchrer par id entrer (1) :\npour rechercher par titre entrer (2) : ");
     chr:
@@ -527,14 +536,14 @@ void modify(){
     {   bf:
         char  buffer[50];
        printf("entre le titre de la tache : ");
-       scanf(" %d", buffer);
+       scanf(" %s", buffer);
        i = chrPart(buffer);
-         if ( i == -1)
+  if ( i == -1)
       {
         printf("\ttitre invalid \n");
         goto bf;
       }
-      affichtache(i);
+      affichtache(i+1);
     }
     char c;
     printf("voulez-vous rechercher autres tache ? [Y/N] : ");
