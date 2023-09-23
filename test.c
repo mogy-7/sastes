@@ -55,8 +55,8 @@ int nbrTaches = 0;
         printf("/%d\n", T[i].deadline.jour);
         printf("Statut : %s\n", T[i].statuses.statusname);
         printf("Date de creation : %d", T[i].criation.jour);
-        printf("/%d",T[i].deadline.mois);
-        printf("/%d\n", T[i].deadline.anne);
+        printf("/%d",T[i].criation.mois);
+        printf("/%d\n", T[i].criation.anne);
         printf("\n");
     }
  }
@@ -107,12 +107,9 @@ void ajtTache(int a){
     
     Tache buffer;
     while(N < a){
-        time_t H = Y;
-    buffer.criation.anne = H;
-    H = M;
-    buffer.criation.mois = H;
-    H = M;
-    buffer.criation.jour = H;
+    buffer.criation.anne = Y;
+    buffer.criation.mois = M;
+    buffer.criation.jour = D;
     buffer.id = nbrTaches + 1;
     printf("Titre de la %d tache : ",N+1);
     scanf(" %[^\n]", buffer.titre);
@@ -237,7 +234,7 @@ void triPard(){
 void AfficherTaches(){
     if (nbrTaches == 0) {
         printf("Aucune tache trouvee.\n");
-       
+       return;
     }
     while (1)
     {
