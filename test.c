@@ -599,7 +599,7 @@ while (1)
     else if (n == 3)
     {
        for (size_t i = 0; i < nbrTaches; i++){
-         printf("ID : %d\n", tache[i].id);
+         printf("\nID : %d\n", tache[i].id);
         printf("Titre : %s\n", tache[i].titre);
         printf("le nombre de jours restants : %d j\n", tache[i].joures);
        }
