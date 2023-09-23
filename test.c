@@ -572,9 +572,10 @@ while (1)
     f:
     printf("pour afficher le nombre total des taches entrer (1) : \n");
     printf("pour afficher le nombre de taches completes et incompletes entrer (2) : \n");
-    printf("pour afficher le nombre de jours restants jusqu'au delai de chaque tache (3) : ");
+    printf("pour afficher le nombre de jours restants jusqu'au delai de chaque tache (3) : \n");
+    printf("======================================================================================> ");
     scanf("%d",&n);
-    if (n)
+    if (n == 1)
     {
         printf("le nombre total des taches est :  %d \n",nbrTaches);
     }
@@ -592,27 +593,32 @@ while (1)
             }
             
         }
-        printf("le nombre de taches completes est : %d", C);
-        printf("le nombre de taches completes est : %d", I);
+        printf("\n\tle nombre de taches completes est : %d", C);
+        printf("\n\tle nombre de taches incompletes est : %d\n\n", I);
     }
     else if (n == 3)
     {
        for (size_t i = 0; i < nbrTaches; i++){
          printf("ID : %d\n", tache[i].id);
         printf("Titre : %s\n", tache[i].titre);
-        printf("le nombre de jours restants : %d\n", tache[i].joures);
+        printf("le nombre de jours restants : %d j\n", tache[i].joures);
        }
     }else{
         printf("\tchoix invalid !!");
         goto f;
     }
-    printf("voulez-vous  des autres static  ? [Y/N]");
-    char v = getchar();
+    strt:
+     char v;
+    printf("voulez-vous  des autres static [Y/N] ? ");
+   v = getchar();
     if(v == 'Y'|| v == 'y')
             continue;
     else if(v == 'N'|| v == 'n')
             break;
-    
+    else{
+          goto strt;
+    }
+      
 }
 
 }
