@@ -143,15 +143,17 @@ void ajtTache(int a)
         }
         buffer.deadline.mois = d;
         int m = d;
-    jour:
+    jr:
+    int a;
         printf("\n\t\033[0;36mentrer le jour  :  \033[0;3m");
-        scanf(" %d", &d);
-        if ((d < 1 || d > 30) || (d < D && m - M < 1 && y - M < 1))
+        // printf("  %d  ",D);
+        scanf(" %d", &a);
+        if ((a < 1 || a > 30) ||((a < D )&& ( m - M < 1 && y - Y < 1)))
         {
             printf("\n\t\t\033[0;31minvalid jour !!!\033[0;37m\n");
-            goto jour;
+            goto jr;
         }
-        buffer.deadline.jour = d;
+        buffer.deadline.jour = a;
         buffer.joures = timecalc(buffer.deadline.anne, buffer.deadline.mois, buffer.deadline.jour);
     status:
         int s;
@@ -191,7 +193,7 @@ void troifun()
     {
         // printf(" les jour sont %d ", tache[i].joures);
         if (tache[i].joures <= 3)
-        {
+        {   printf("\033[0;36m");
             printf("ID : %d\n", tache[i].id);
             printf("Titre : %s\n", tache[i].titre);
             printf("descr : %s\n", tache[i].descr);
@@ -200,6 +202,7 @@ void troifun()
             printf("/%d\n", tache[i].deadline.jour);
             printf("Statut : %s\n", tache[i].statuses.statusname);
             printf("\n");
+             printf("\033[0;37m");
             count = 0;
         }
     }
@@ -295,19 +298,15 @@ void AfficherTaches()
 }
 int chrParid(int a)
 {
-    int B = 0;
-    int F = nbrTaches;
-    while (B <= F)
+    int M = -1;
+    for (int i = 0; i < nbrTaches; i++)
     {
-        int M = (B + F) / 2;
-        if (tache[M].id == a)
-            return M;
-        else if (tache[M].id < a)
-            B = M + 1;
-        else
-            F = M - 1;
+        if (tache[i].id == a)
+        {
+            return i;
+        }
     }
-    return -1;
+    return M;
 }
 
 // int chrPart(char tab[]){
@@ -398,7 +397,7 @@ int midifyer(int d, int i)
     mo:
         printf("\n\t\033[0;35mentre le moi : \033[0;37m");
         scanf("%d", &n);
-        if ((n < 1 || n > 12) || (n < mois && n - y < 1))
+        if ((n < 1 || n > 12) || (n < mois && y - y < 1))
         {
             printf("\n\t\033[0;31minvalid moi !!\033[0;37m\n");
             goto mo;
@@ -414,6 +413,7 @@ int midifyer(int d, int i)
             goto jo;
         }
         tache[i].deadline.jour = n;
+        tache[i].joures = timecalc(tache[i].deadline.anne,tache[i].deadline.mois,tache[i].deadline.jour);
     }
     else
     {
