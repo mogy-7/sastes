@@ -46,6 +46,8 @@ int nbrtroi = 0;
 Tache tache[MAX_TACHES];
 int nbrTaches = 0;
 
+int nbrsprm = 0; 
+
 void affichage(Tache T[], int a)
 {
     for (int i = 0; i < a; i++)
@@ -103,7 +105,7 @@ void ajtTache(int a)
 
     if (nbrTaches >= MAX_TACHES)
     {
-        printf("La liste de taches est pleine. Impossible d'ajouter plus de taches.\n");
+        printf("\033[0;31m\nLa liste de taches est pleine. Impossible d'ajouter plus de taches.\033[0;37m\n");
         return;
     }
 
@@ -114,46 +116,46 @@ void ajtTache(int a)
         buffer.criation.mois = M;
         buffer.criation.jour = D;
         buffer.id = nbrTaches + 1;
-        printf("Titre de la %d tache : ", N + 1);
+        printf("\033[0;36mTitre de la %d tache : \033[0;37m", N + 1);
         scanf(" %[^\n]", buffer.titre);
 
-        printf("Description de la %d tache   : ", N + 1);
+        printf("\033[0;36mDescription de la %d tache   : \033[0;37m", N + 1);
         scanf(" %[^\n]", buffer.descr);
-        printf("==================== on 'est on %d/%d/%d =====================\n", D, M, Y);
-        printf("entre le deadline  : \n");
+        printf("\033[0;33m==================== on 'est on %d/%d/%d =====================\033[0;37m\n", D, M, Y);
+        printf("\033[0;36mentre le deadline  : \033[0;37m\n");
     anne:
-        printf("\n\tentrer l'annee :  ");
+        printf("\n\t\033[0;36mentrer l'annee :  \033[0;37m");
         scanf(" %d", &d);
         if (d < 2023 || d > 2100)
         {
-            printf("\n\t\tinvalid anne !!!\n");
+            printf("\n\t\t\033[0;31minvalid anne !!!\033[0;37m\n");
             goto anne;
         }
         buffer.deadline.anne = d;
         int y = d;
     moi:
-        printf("\n\t entrer le moi  :  ");
+        printf("\n\t\033[0;36mentrer le moi  :  \033[0;37m");
         scanf(" %d", &d);
         if ((d < 1 || d > 12) || (d < M && y - Y < 1))
         {
-            printf("\n\t\tinvalid moi !!!\n");
+            printf("\n\t\t\033[0;31minvalid moi !!!\033[0;37m\n");
             goto moi;
         }
         buffer.deadline.mois = d;
         int m = d;
     jour:
-        printf("\n\t entrer le jour  :  ");
+        printf("\n\t\033[0;36mentrer le jour  :  \033[0;3m");
         scanf(" %d", &d);
         if ((d < 1 || d > 30) || (d < D && m - M < 1 && y - M < 1))
         {
-            printf("\n\t\tinvalid jour !!!\n");
+            printf("\n\t\t\033[0;31minvalid jour !!!\033[0;37m\n");
             goto jour;
         }
         buffer.deadline.jour = d;
         buffer.joures = timecalc(buffer.deadline.anne, buffer.deadline.mois, buffer.deadline.jour);
     status:
         int s;
-        printf("\nStatut de de la %d tache :\n\tpour a realiser entrer (1) .\n\tpour en cours (2) .\n\tpour finalisee (3) .\n", N + 1);
+        printf("\n\033[0;36mStatut de de la %d tache :\n\tpour a realiser entrer (1) .\n\tpour en cours (2) .\n\tpour finalisee (3) .\033[0;37m\n", N + 1);
         printf("=======================================> ");
         scanf(" %d", &s);
         if (s == 1)
@@ -173,13 +175,13 @@ void ajtTache(int a)
         }
         else
         {
-            puts("\n\t\tinvalide choix !!!");
+            puts("\n\t\t\033[0;31minvalide choix !!!\033[0;37m");
             goto status;
         }
         tache[nbrTaches++] = buffer;
         N++;
     }
-    printf("\n\t~Tache ajoutee avec succes!~\n");
+    printf("\n\t\033[0;33m~Tache ajoutee avec succes!~\033[0;37m\n");
 }
 
 void troifun()
@@ -246,7 +248,7 @@ void AfficherTaches()
 {
     if (nbrTaches == 0)
     {
-        printf("Aucune tache trouvee.\n");
+        printf("\n\t\033[0;31mAucune tache trouvee.\033[0;37m\n");
         return;
     }
     while (1)
@@ -425,7 +427,7 @@ void modify()
     {
         if (nbrTaches <= 0)
         {
-            printf("\n\t~n'est pas de tache pour modifier~\n");
+            printf("\n\t\033[0;31m~n'est pas de tache pour modifier~ \033[0;37m\n");
             return;
         }
         int n;
@@ -474,7 +476,7 @@ void suprimer()
 {
     if (nbrTaches <= 0)
     {
-        printf("n'est pas de tache pour suprimer \n");
+        printf("\n\t\033[0;31m~n'est pas de tache pour suprimer~\033[0;37m\n");
         return;
     }
     int s;
@@ -510,6 +512,7 @@ void suprimer()
         tache[nbrTaches - 1] = tache[i];
         tache[i] = tache[nbrTaches - 1];
         nbrTaches--;
+        nbrsprm++;
         if (nbrTaches <= 0)
         {
             printf("\tsuprimer avec succer !!\n\tnombre de tahce est vide !!! \n");
@@ -553,7 +556,7 @@ void rechercher()
     {
         if (nbrTaches <= 0)
         {
-            printf("\tNombre des taches est vide !!\n");
+            printf("\n\t\033[0;31mNombre des taches est vide !!\033[0;37m\n");
             return;
         }
         int n;
@@ -618,7 +621,7 @@ void statis()
 
     if (nbrTaches <= 0)
     {
-        printf("n'est pas de tache !! \n");
+        printf("\n\t\033[0;31mn'est pas de tache !! \033[0;37m\n");
         return;
     }
     while (1)
@@ -684,9 +687,12 @@ int main()
 {
     int choix, f;
     int n;
+
     while (1)
     {
-        printf("\n\nMenu principal:\n");
+
+
+        printf("\n\n\t\033[0;32m~ Menu principal~\n");
         printf("====================================\n");
         printf("1. Ajouter nouvelles taches .\n");
         printf("2. Afficher la liste des toutes les taches (triees).\n");
@@ -695,27 +701,27 @@ int main()
         printf("5. Rechercher les Taches  .\n");
         printf("6. Statistiques .\n");
         printf("7.  Quitere  .\n");
-        printf("=========>Entrez votre choix : ");
+        printf("=========>Entrez votre choix : \033[0;37m");
         scanf("%d", &choix);
         switch (choix)
         {
         case 1:
         nmbr:
-            printf("\nentre le nombre de taches : ");
+            printf("\n\033[0;36mentre le nombre de taches : \033[0;37m");
             scanf("%d", &n);
             if (n <= 0)
             {
-                printf("nombre de tache invalid !\n");
+                printf("\033[0;31m\n\tnombre de tache invalid !\033[0;37m\n");
                 goto nmbr;
             }
             else if (n > 100)
             {
-                printf("\n\t~tu passes les limit des taches~\n");
+                printf("\n\t\033[0;36m~tu passes les limit des taches~\033[0;37m\n");
                 goto nmbr;
             }
             else if (n > 10)
             {
-                printf("\n\t~c'est traux mai pas problem~\n");
+                printf("\n\t\033[0;33m~c'est traux mai pas problem~\033[0;37m\n");
             }
 
             ajtTache(n);
@@ -736,10 +742,10 @@ int main()
             statis();
             break;
         case 7:
-            printf("Au revoir!\n");
+            printf("\n\t\033[0;35mAu revoir!\033[0;37m\n\n");
             exit(0);
         default:
-            printf("Choix invalide !!!\n\t Veuillez reessayer.\n");
+            printf("\n\t\033[0;31m  Choix invalide !!!\n\t Veuillez reessayer !\033[0;37m\n");
         }
     }
 }
