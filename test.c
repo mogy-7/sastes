@@ -51,7 +51,7 @@ int nbrsprm = 0;
 void affichage(Tache T[], int a)
 {
     for (int i = 0; i < a; i++)
-    {
+    {   printf("\033[0;35m");
         printf("\nID : %d\n", T[i].id);
         printf("Titre : %s\n", T[i].titre);
         printf("descr : %s\n", T[i].descr);
@@ -62,7 +62,7 @@ void affichage(Tache T[], int a)
         printf("Date de creation : %d", T[i].criation.jour);
         printf("/%d", T[i].criation.mois);
         printf("/%d\n", T[i].criation.anne);
-        printf("\n");
+        printf("\033[0;37m\n");
     }
 }
 
@@ -205,7 +205,7 @@ void troifun()
     }
     if (count)
     {
-        printf("\n\t~n'exist pas~\n");
+        printf("\n\t\033[0;31m~n'exist pas~\033[0;37m\n");
     }
 }
 
@@ -255,7 +255,7 @@ void AfficherTaches()
     {
         int a;
     tri:
-        printf("pour affichier  les taches trier :\n\tpar ordre alphabetique entrer (1).\n\tpar deadline (2).\n\tdeadline est dans 3 jours ou moins (3).\n");
+        printf("\033[0;36mpour affichier  les taches trier :\n\tpar ordre alphabetique entrer (1).\n\tpar deadline (2).\n\tdeadline est dans 3 jours ou moins (3).\033[0;37m\n");
         printf("=======================>   ");
         scanf("%d", &a);
         if (a == 1)
@@ -272,11 +272,11 @@ void AfficherTaches()
         }
         else
         {
-            printf("nombre de choix invalid");
+            printf("\033[0;31mnombre de choix invalid\033[0;37m");
             goto tri;
         }
         int z;
-        printf("voulez-vous afficher la list des taches autres fois ? [Y/N] : ");
+        printf("\033[0;33mvoulez-vous afficher la list des taches autres fois ? [Y/N] : \033[0;37m");
     ask:
         z = getchar();
         if (z == 'Y' || z == 'y')
@@ -351,15 +351,15 @@ int midifyer(int d, int i)
     int n, s;
     if (d == 1)
     {
-        printf("entre la modification de la description ici :  ");
+        printf("\033[0;35mentre la modification de la description ici : \033[0;37m ");
         scanf(" %[^\n]", buffer);
         strcpy(tache[i].descr, buffer);
     }
     else if (d == 2)
     {
-        printf("entre la modification de le statut ici :  \n");
+        printf("\033[0;35mentre la modification de le statut ici :  \033[0;37m\n");
     status:
-        printf("Statut de la tache :\n  pour a realiser entrer (1) :\n  pour en cours (2) :\n  pour finalisee (3) : ");
+        printf("\033[0;36mStatut de la tache :\n  pour a realiser entrer (1) :\n  pour en cours (2) :\n  pour finalisee (3) : \033[0;36m");
         scanf(" %d", &s);
         if (s == 1)
         {
@@ -378,39 +378,39 @@ int midifyer(int d, int i)
         }
         else
         {
-            puts("\tinvalide input \n");
+            puts("\n\t\033[0;31minvalide input \033[0;37m\n");
             goto status;
         }
     }
     else if (d == 3)
     {
-        printf("entre la modification de le deadline ici :  ");
+        printf("\033[0;35mentre la modification de le deadline ici :  \033[0;37m");
     did:
-        printf("\n\tentre l'anne : ");
+        printf("\n\t\033[0;35mentre l'anne : \033[0;37m");
         scanf("%d", &n);
         if (n < 2023 || n > 2100)
         {
-            printf("\n\t invalid annee !!\n");
+            printf("\n\t\033[0;31minvalid annee !!\033[0;37m\n");
             goto did;
         }
         tache[i].deadline.anne = n;
         int y = n;
     mo:
-        printf("\n\tentre le moi : ");
+        printf("\n\t\033[0;35mentre le moi : \033[0;37m");
         scanf("%d", &n);
         if ((n < 1 || n > 12) || (n < mois && n - y < 1))
         {
-            printf("\n\t invalid moi !!\n");
+            printf("\n\t\033[0;31minvalid moi !!\033[0;37m\n");
             goto mo;
         }
         tache[i].deadline.mois = n;
         int m = n;
     jo:
-        printf("\n\tentre le jour : ");
+        printf("\n\t\033[0;35mentre le jour : \033[0;37m");
         scanf("%d", &n);
         if ((n < 1 || n > 30) || (n < jour && (m - mois < 1 && y - anne < 1)))
         {
-            printf("\n\t invalid jour !!\n");
+            printf("\n\t\033[0;35minvalid jour !!\033[0;37m\n");
             goto jo;
         }
         tache[i].deadline.jour = n;
@@ -433,7 +433,7 @@ void modify()
         int n;
         int i, d;
     start:
-        printf("entre le id de la tache : ");
+        printf("\033[0;35mentre le id de la tache : \033[0;37m");
         scanf("%d", &n);
         i = chrParid(n);
         if (i == -1)
@@ -442,19 +442,21 @@ void modify()
             goto start;
         }
     modi:
+        printf("\033[0;36m");
         printf("\tpour  Modifier la description entrer (1) .\n ");
         printf("\tpour Modifier le statut d'une tache (2) .\n");
         printf("\tModifier le deadline d'une tache entrer (3) .\n");
+         printf("\033[0;37m");
         printf("==================================================> ");
         scanf("%d", &d);
         if (midifyer(d, i) == -1)
         {
-            printf("\tinvalid choix ! \n");
+            printf("\n\t\t\033[0;31minvalid choix ! \033[0;37m\n\n");
             goto modi;
         }
 
         char c;
-        printf("\tvoulez-vous le modifier des autres tache ? [Y/N] : ");
+        printf("\t\033[0;33mvoulez-vous le modifier des autres tache ? [Y/N] : \033[0;37m");
     ask:
         c = getchar();
         if (c == 'Y' || c == 'y')
@@ -479,15 +481,8 @@ void suprimer()
         printf("\n\t\033[0;31m~n'est pas de tache pour suprimer~\033[0;37m\n");
         return;
     }
-    int s;
-    printf("si vous voulez tout supprimer entrer (0) :  ");
-    scanf("%d", &s);
-    if (s == 0)
-    {
-        nbrTaches = 0;
-        printf("\n\t~Tout est suprimer~");
-        return;
-    }
+    // int s;
+    
 
     while (1)
     {
@@ -496,8 +491,16 @@ void suprimer()
             printf("n'est pas de tache pour suprimer \n");
             break;
         }
-        int n;
-        int i, d;
+        int i, d,s,n;
+        si:
+        printf("\033[0;33msi vous voulez tout supprimer entrer (0) sinon entrer (1) : ");
+        scanf("%d", &s);
+        if (!s)
+        {
+            nbrTaches = 0;
+            printf("\n\t~Tout est suprimer~");
+            break;
+        }
 
     start:
         printf("entre le id de la tache : ");
@@ -505,7 +508,7 @@ void suprimer()
         i = chrParid(n);
         if (i == -1)
         {
-            printf("\tid invalid \n");
+            printf("\t\033[0;31mid invalid !!\033[0;37m\n");
             goto start;
         }
         Tache tmp = tache[i];
