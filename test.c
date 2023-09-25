@@ -111,7 +111,7 @@ void ajtTache(int a)
     }
     if (!a)
     {
-            return;
+        return;
     }
 
     Tache buffer;
@@ -625,7 +625,7 @@ void rechercher()
             i = chrPart(buffer);
             if (i == -1)
             {
-                printf("\t\033[0;37mtitre invalid \033[0;37m\n");
+                ("\t\033[0;37mtitre invalid \033[0;37m\n");
                 goto bf;
             }
             affichtache(i);
@@ -755,6 +755,11 @@ int main()
         nmbr:
             printf("\n\033[0;36mentre le nombre de taches : \033[0;37m");
             scanf("%d", &n);
+            if (!n)
+            {
+                break;
+            }
+            
             if (n <= 0)
             {
                 printf("\033[0;31m\n\tnombre de tache invalid !\033[0;37m\n");
